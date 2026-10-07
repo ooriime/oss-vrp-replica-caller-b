@@ -1,0 +1,19 @@
+# Inert file. The demonstration PR edits this file so that the replica's `check-changes`
+# job finds a change under `.github/workflows/` and sets its `files` output non-empty,
+# which is the only condition guarding the privileged `zizmor-config` job
+# (google_actions_scan.yml:61-67 at the deployed commit).
+
+name: 'Inert scan target'
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  noop:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'noop'
+        shell: 'bash'
+        run: 'echo "marker: revision 1"'

@@ -1,0 +1,22 @@
+# SECOND CALLER (DEMONSTRATION 1a, cross-caller invariance).
+# A different repository calling the same replica reusable workflow with the same inputs.
+# Its only purpose is to show which OIDC claims change with the caller and which do not.
+# It calls OUR OWN replica. It never calls Google's reusable workflow.
+
+name: 'Caller B - call replica scan with non-empty wif_provider'
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  scan:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    uses: ooriime/oss-vrp-replica-workflows/.github/workflows/github_actions_scan.yml@main
+    with:
+      wif_provider: 'projects/000000000000/locations/global/workloadIdentityPools/replica-fake-pool/providers/replica-fake-provider'
+      zizmor_result_bucket: 'caller-b-supplied-bucket-demo4'
+      zizmor_enforce: 'false'
