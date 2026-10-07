@@ -1,0 +1,25 @@
+# DEMONSTRATION 1a, variant: the caller pins the reusable workflow by TAG instead of by
+# branch. In the real deployment an Alphabet enterprise ruleset injects Google's workflow
+# pinned at `refs/tags/actions-20260622-02`. This variant measures whether an arbitrary
+# caller can make `job_workflow_ref` and `job_workflow_sha` byte-identical to the value a
+# legitimately injected run produces, simply by choosing the same ref.
+#
+# It pins a tag in OUR OWN replica repository. It never calls any Google workflow.
+
+name: 'Caller B - call replica scan pinned by tag'
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  scan:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    uses: ooriime/oss-vrp-replica-workflows/.github/workflows/github_actions_scan.yml@replica-actions-20260622-02
+    with:
+      wif_provider: 'projects/000000000000/locations/global/workloadIdentityPools/replica-fake-pool/providers/replica-fake-provider'
+      zizmor_result_bucket: 'caller-b-pinned-tag-bucket'
+      zizmor_enforce: 'false'
